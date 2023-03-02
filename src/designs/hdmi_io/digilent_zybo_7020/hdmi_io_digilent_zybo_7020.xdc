@@ -19,13 +19,13 @@
 create_clock -add -name hdmi_rx_clk -period 10.00 -waveform {0 5} [get_ports hdmi_rx_clk_p_i]
 
 # clock renaming
-create_generated_clock -name clk_100m [get_pins U_MMCM/MMCM/CLKOUT0]
-create_generated_clock -name clk_200m [get_pins U_MMCM/MMCM/CLKOUT1]
-create_generated_clock -name pclk     [get_pins U_HDMI_RX/U_CLK/U_MMCM/CLKOUT0]
+create_generated_clock -name clk_100m [get_pins mmcm_inst/MMCM/CLKOUT0]
+create_generated_clock -name clk_200m [get_pins mmcm_inst/MMCM/CLKOUT1]
+create_generated_clock -name pclk     [get_pins hdmi_rx_inst/U_CLK/U_MMCM/CLKOUT0]
 
 # false paths
-set_false_path -from [get_clocks clk_100m] -to [get_clocks pclk]
-set_false_path -from [get_clocks pclk] -to [get_clocks clk_100m]
-set_false_path -from [get_clocks clk_100m] -to [get_clocks hdmi_rx_clk]
+set_false_path -from [get_clocks clk_100m]    -to [get_clocks pclk]
+set_false_path -from [get_clocks pclk]        -to [get_clocks clk_100m]
+set_false_path -from [get_clocks clk_100m]    -to [get_clocks hdmi_rx_clk]
 set_false_path -from [get_clocks hdmi_rx_clk] -to [get_clocks clk_100m]
 
